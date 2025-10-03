@@ -4,6 +4,8 @@ Pydantic models for holidays.
 
 from datetime import date
 from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic_core.core_schema import FieldValidationInfo
+
 
 class HolidayBase(BaseModel):
     employee_name: str
@@ -13,7 +15,7 @@ class HolidayBase(BaseModel):
 
     @field_validator("end_date")
     @classmethod
-    def check_end_after_start(cls, v, info):
+    def check_end_after_start(cls, v: date, info: FieldValidationInfo):
         start = info.data.get("start_date")
         if start and v < start:
             raise ValueError("end_date cannot be before start_date")
