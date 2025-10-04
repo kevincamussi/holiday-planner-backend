@@ -5,9 +5,10 @@ FastAPI application for managing holidays.
 from fastapi import FastAPI, HTTPException, Query
 from bson import ObjectId
 from fastapi.middleware.cors import CORSMiddleware
-from datetime import timedelta
+from datetime import timedelta, date
 from .models.holidays import HolidayCreate, HolidayOut
 from .database import holidays_collection
+from .types.holidays import HolidayInsert
 
 app = FastAPI()
 
@@ -28,7 +29,8 @@ async def get_autocomplete(
 async def get_holidays():
     """Return all holidays from MongoDB."""
     cursor = holidays_collection.find()
-    holidays = []
+    holidays: list[HolidayOut] = []
+
     async for h in cursor:
         holidays.append(HolidayOut(
             id=str(h["_id"]),
@@ -43,7 +45,7 @@ async def get_holidays():
 @app.post("/holidays")
 async def create_holiday(holiday: HolidayCreate):
     """Insert a new holiday and return it."""
-    doc = {
+    doc: HolidayInsert = {
         "employee_name": holiday.employee_name,
         "department": holiday.department,
         "start_date": holiday.start_date.isoformat(),
@@ -56,7 +58,11 @@ async def create_holiday(holiday: HolidayCreate):
     result = await holidays_collection.insert_one(doc)
     return HolidayOut(
         id=str(result.inserted_id),
-        **doc
+        employee_name=doc["employee_name"],
+        department=doc["department"],
+        start_date=date.fromisoformat(doc["start_date"]),
+        end_date=date.fromisoformat(doc["end_date"]),
+        days=doc["days"]
     )
 
 @app.delete("/holidays/{holiday_id}")
