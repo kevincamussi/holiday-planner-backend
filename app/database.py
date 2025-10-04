@@ -6,6 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncI
 from dotenv import load_dotenv
 import os
 from typing import Any
+from .types.holidays import HolidayDoc
 
 load_dotenv()
 
@@ -21,5 +22,5 @@ if not DB_NAME:
 # Async client and DB/collection references
 client: AsyncIOMotorClient[Any] = AsyncIOMotorClient(MONGO_URL)
 db: AsyncIOMotorDatabase[Any] = client[DB_NAME]
-holidays_collection: AsyncIOMotorCollection[dict[str, Any]] = db["holidays"]
+holidays_collection: AsyncIOMotorCollection[HolidayDoc] = db["holidays"]
 
