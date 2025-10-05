@@ -2,7 +2,8 @@
 Holiday-related endpoints (CRUD operations and autocomplete).
 """
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, Depends, HTTPException, Query
+from app.core.security import get_current_user
 from bson import ObjectId
 from datetime import timedelta, date
 
@@ -10,7 +11,7 @@ from app.models.holidays import HolidayCreate, HolidayOut
 from app.core.database import holidays_collection
 from app.types.holidays import HolidayInsert
 
-router = APIRouter()
+router = APIRouter(dependencies=[Depends(get_current_user)])
 
 
 

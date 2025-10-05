@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import os
 from typing import Any
 from ..types.holidays import HolidayDoc
+from ..types.users import UserDoc
 
 load_dotenv()
 
@@ -23,4 +24,5 @@ if not DB_NAME:
 client: AsyncIOMotorClient[dict[str, Any]] = AsyncIOMotorClient(MONGO_URL)
 db: AsyncIOMotorDatabase[Any] = client[DB_NAME]
 holidays_collection: AsyncIOMotorCollection[HolidayDoc] = db["holidays"]
+users_collection: AsyncIOMotorCollection[UserDoc] = db["users"] 
 
