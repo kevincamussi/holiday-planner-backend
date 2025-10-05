@@ -3,15 +3,18 @@ Pydantic models for holidays.
 """
 
 from datetime import date
-from pydantic import BaseModel, ConfigDict, field_validator
+from pydantic import BaseModel, ConfigDict, field_validator, Field
 from pydantic_core.core_schema import FieldValidationInfo
 
 
 class HolidayBase(BaseModel):
-    employee_name: str
+    employee_name: str = Field(..., alias="employeeName")
     department: str
-    start_date: date
-    end_date: date
+    start_date: date = Field(..., alias="startDate")
+    end_date: date = Field(..., alias="endDate")
+    
+    model_config = ConfigDict(populate_by_name=True)
+
 
     @field_validator("end_date")
     @classmethod

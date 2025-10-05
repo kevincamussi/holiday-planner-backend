@@ -34,10 +34,10 @@ async def get_holidays():
     async for h in cursor:
         holidays.append(HolidayOut(
             id=str(h["_id"]),
-            employee_name=h["employee_name"],
+            employeeName=h["employee_name"],
             department=h["department"],
-            start_date=h["start_date"],
-            end_date=h["end_date"],
+            startDate=h["start_date"],
+            endDate=h["end_date"],
             days=h.get("days", [])
         ))
     return holidays
@@ -45,6 +45,7 @@ async def get_holidays():
 @app.post("/holidays")
 async def create_holiday(holiday: HolidayCreate):
     """Insert a new holiday and return it."""
+    
     doc: HolidayInsert = {
         "employee_name": holiday.employee_name,
         "department": holiday.department,
@@ -58,10 +59,10 @@ async def create_holiday(holiday: HolidayCreate):
     result = await holidays_collection.insert_one(doc)
     return HolidayOut(
         id=str(result.inserted_id),
-        employee_name=doc["employee_name"],
+        employeeName=doc["employee_name"],
         department=doc["department"],
-        start_date=date.fromisoformat(doc["start_date"]),
-        end_date=date.fromisoformat(doc["end_date"]),
+        startDate=date.fromisoformat(doc["start_date"]),
+        endDate=date.fromisoformat(doc["end_date"]),
         days=doc["days"]
     )
 
