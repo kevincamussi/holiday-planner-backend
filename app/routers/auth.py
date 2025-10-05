@@ -4,7 +4,6 @@ Authentication endpoints: register, login, me
 
 from fastapi import APIRouter, HTTPException, status, Depends
 from datetime import timedelta
-from bson import ObjectId
 
 from app.core.database import users_collection
 from app.core.security import (

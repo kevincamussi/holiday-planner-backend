@@ -5,3 +5,4 @@ class UserDoc(TypedDict, total=False):
     email: str
     name: str | None
     hashed_password: str
+
