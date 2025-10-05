@@ -33,11 +33,21 @@ async def register(user: UserCreate):
 @router.post("/login", response_model=Token)
 async def login(credentials: UserLogin):
     user = await users_collection.find_one({"email": credentials.email})
-    if not user or not verify_password(credentials.password, user["hashed_password"]):
+
+    if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password")
 
-    token = create_access_token(str(user["_id"]), timedelta(minutes=60))
+    hashed = user.get("hashed_password")
+    if not hashed or not verify_password(credentials.password, hashed):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email or password")
+
+    user_id = str(user.get("_id"))
+    if not user_id:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="User ID missing")
+
+    token = create_access_token(user_id, timedelta(minutes=60))
     return Token(access_token=token)
+
 
 @router.get("/me", response_model=UserOut)
 async def me(current: UserOut = Depends(get_current_user)):
