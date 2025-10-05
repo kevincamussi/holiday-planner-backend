@@ -6,7 +6,7 @@ from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase, AsyncI
 from dotenv import load_dotenv
 import os
 from typing import Any
-from .types.holidays import HolidayDoc
+from ..types.holidays import HolidayDoc
 
 load_dotenv()
 
@@ -20,7 +20,7 @@ if not DB_NAME:
     raise ValueError("DB_NAME is not set in environment variables")
 
 # Async client and DB/collection references
-client: AsyncIOMotorClient[Any] = AsyncIOMotorClient(MONGO_URL)
+client: AsyncIOMotorClient[dict[str, Any]] = AsyncIOMotorClient(MONGO_URL)
 db: AsyncIOMotorDatabase[Any] = client[DB_NAME]
 holidays_collection: AsyncIOMotorCollection[HolidayDoc] = db["holidays"]
 
