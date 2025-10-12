@@ -39,18 +39,14 @@ Swagger UI:
 
 Create a `.env` file in the project root:
 
-.env  
+.env file:  
 
-SECRET_KEY="5a3e4d2f7e8c9a1b6d0e3f2c4a8b7d9f1234567890abcdef1234567890abcdef"
-MONGO_URL=mongodb://localhost:27017/holiday_planner
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=60
-
-# MongoDB
-DB_NAME=holiday_planner
-
-# CORS
-FRONTEND_URL=http://localhost:5173
+SECRET_KEY="5a3e4d2f7e8c9a1b6d0e3f2c4a8b7d9f1234567890abcdef1234567890abcdef"  
+MONGO_URL=mongodb://localhost:27017/holiday_planner   
+ALGORITHM=HS256   
+ACCESS_TOKEN_EXPIRE_MINUTES=60  
+DB_NAME=holiday_planner  
+FRONTEND_URL=http://localhost:5173  
 
 
 ⚠️ Important: MongoDB must be installed and running locally on port 27017.
