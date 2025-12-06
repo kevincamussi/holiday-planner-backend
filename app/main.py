@@ -16,6 +16,7 @@ app.include_router(holidays.router, prefix="/holidays", tags=["Holidays"])
 
 origins=[
     "https://holiday-planner-frontend-five.vercel.app",
+    "https://business-management-frontend-wheat.vercel.app"
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost",
